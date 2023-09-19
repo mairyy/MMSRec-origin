@@ -56,18 +56,26 @@ class Evaluator(object):
 
         sort_lists = torch.cat(sort_lists, dim=0)
 
+        Recall5 = _calc_Recall(sort_lists, batch_size, 5)
         Recall10 = _calc_Recall(sort_lists, batch_size, 10)
+        Recall20 = _calc_Recall(sort_lists, batch_size, 20)
         Recall50 = _calc_Recall(sort_lists, batch_size, 50)
+        NDCG5 = _calc_NDCG(sort_lists, batch_size, 5)
         NDCG10 = _calc_NDCG(sort_lists, batch_size, 10)
+        NDCG20 = _calc_NDCG(sort_lists, batch_size, 20)
         NDCG50 = _calc_NDCG(sort_lists, batch_size, 50)
 
         if self.args.wandb_enable:
-            wandb.log({"eval/Recall@10": Recall10,
+            wandb.log({"eval/Recall@5": Recall5,
+                       "eval/Recall@10": Recall10,
+                       "eval/Recall@20": Recall20,
                        "eval/Recall@50": Recall50,
+                       "eval/NDCG@5": NDCG5,
                        "eval/NDCG@10": NDCG10,
+                       "eval/NDCG@20": NDCG20,
                        "eval/NDCG@50": NDCG50,
                        "train/epoch": epoch})
-        self.logger.info(f"Epoch {epoch} Eval Result: R@10:{Recall10}, R@50:{Recall50}, NDCG@10:{NDCG10}, NDCG@50:{NDCG50}")
+        self.logger.info(f"Epoch {epoch} Eval Result: R@5:{Recall5}, R@10:{Recall10}, R@20:{Recall20}, R@50:{Recall50}, NDCG@5:{NDCG5}, NDCG@10:{NDCG10}, NDCG@20:{NDCG20}, NDCG@50:{NDCG50}")
 
         return Recall10
 
@@ -89,17 +97,24 @@ class Evaluator(object):
 
         sort_lists = torch.cat(sort_lists, dim=0)
 
+        Recall5 = _calc_Recall(sort_lists, batch_size, 5)
         Recall10 = _calc_Recall(sort_lists, batch_size, 10)
+        Recall20 = _calc_Recall(sort_lists, batch_size, 20)
         Recall50 = _calc_Recall(sort_lists, batch_size, 50)
+        NDCG5 = _calc_NDCG(sort_lists, batch_size, 5)
         NDCG10 = _calc_NDCG(sort_lists, batch_size, 10)
+        NDCG20 = _calc_NDCG(sort_lists, batch_size, 20)
         NDCG50 = _calc_NDCG(sort_lists, batch_size, 50)
 
         if self.args.wandb_enable:
-            wandb.log({"test/Recall@10": Recall10,
+            wandb.log({"test/Recall@5": Recall5,
+                       "test/Recall@10": Recall10,
+                       "test/Recall@20": Recall20,
                        "test/Recall@50": Recall50,
+                       "test/NDCG@5": NDCG5,
                        "test/NDCG@10": NDCG10,
+                       "test/NDCG@20": NDCG20,
                        "test/NDCG@50": NDCG50})
-        self.logger.info(f"Test Result: R@10:{Recall10}, R@50:{Recall50}, NDCG@10:{NDCG10}, NDCG@50:{NDCG50}")
-
+        self.logger.info(f"Test Result: R@5:{Recall5}, R@10:{Recall10}, R@20:{Recall20}, R@50:{Recall50}, NDCG@5:{NDCG5}, NDCG@10:{NDCG10}, NDCG@20:{NDCG20}, NDCG@50:{NDCG50}")
 
 
